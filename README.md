@@ -9,7 +9,7 @@ Provides a minimal web-based interface so users or clinicians can input paramete
 Enables further research, experimentation or integration with more sophisticated medical-grade systems.
 
 This repository includes data preprocessing notebooks, model training scripts, a trained model, and a basic web application to run predictions.
-
+ 
 ✅ Key Features
 
 Data-driven: Uses a structured healthcare dataset (CSV) containing features relevant to stroke risk.

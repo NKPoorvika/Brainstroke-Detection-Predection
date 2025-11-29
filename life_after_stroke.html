@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life After Stroke | NEUROSTROKE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <main class="life-after-stroke-container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Life After Stroke</h1>
+                <p>Recovery and rehabilitation resources for stroke survivors and their caregivers</p>
+            </div>
+        </section>
+
+        <section class="recovery-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Stroke Recovery Journey</h2>
+                    <p>Every stroke recovery is unique, but these stages provide a general framework</p>
+                </div>
+
+                <div class="recovery-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Acute Care</h3>
+                        <p>Immediate medical treatment to stabilize the patient and minimize brain damage.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Rehabilitation</h3>
+                        <p>Intensive therapy to regain lost abilities (physical, speech, occupational).</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Community Reintegration</h3>
+                        <p>Adjusting to life at home and in the community with new abilities.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Long-Term Recovery</h3>
+                        <p>Ongoing progress and adaptation to lasting effects.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="resources-section">
+            <div class="container">
+                <h2>Recovery Resources</h2>
+                <div class="resource-cards">
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3>Support Groups</h3>
+                        <p>Connect with other stroke survivors for shared experiences and encouragement.</p>
+                        <a href="#" class="resource-link">Find a Group</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>Educational Materials</h3>
+                        <p>Guides and books to help understand stroke recovery process.</p>
+                        <a href="#" class="resource-link">Browse Resources</a>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h3>Professional Help</h3>
+                        <p>Find specialists in stroke rehabilitation and recovery.</p>
+                        <a href="#" class="resource-link">Search Providers</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="caregiver-section">
+            <div class="container">
+                <h2>For Caregivers</h2>
+                <div class="caregiver-tips">
+                    <div class="tip">
+                        <h3><i class="fas fa-heart"></i> Self-Care</h3>
+                        <p>Caregivers need to prioritize their own health to provide effective care.</p>
+                    </div>
+                    <div class="tip">
+                        <h3><i class="fas fa-hand-holding-heart"></i> Emotional Support</h3>
+                        <p>Be patient and understanding as recovery can be emotionally challenging.</p>
+                    </div>
+                    <div class="tip">
+                        <h3><i class="fas fa-home"></i> Home Modifications</h3>
+                        <p>Adapt the living environment to accommodate new physical limitations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="prevention-section">
+            <div class="container">
+                <h2>Preventing Another Stroke</h2>
+                <div class="prevention-list">
+                    <div class="prevention-item">
+                        <i class="fas fa-pills"></i>
+                        <h3>Medication Adherence</h3>
+                        <p>Take all prescribed medications as directed by your doctor.</p>
+                    </div>
+                    <div class="prevention-item">
+                        <i class="fas fa-utensils"></i>
+                        <h3>Healthy Diet</h3>
+                        <p>Follow a heart-healthy diet low in sodium and saturated fats.</p>
+                    </div>
+                    <div class="prevention-item">
+                        <i class="fas fa-walking"></i>
+                        <h3>Regular Exercise</h3>
+                        <p>Engage in physical activity as approved by your healthcare team.</p>
+                    </div>
+                    <div class="prevention-item">
+                        <i class="fas fa-user-md"></i>
+                        <h3>Regular Check-ups</h3>
+                        <p>Monitor blood pressure, cholesterol, and other risk factors.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    {% include 'chatbot.html' %}
+    {% include 'footer.html' %}
+
+    <style>
+        /* Life After Stroke Page Styles */
+        .life-after-stroke-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .recovery-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .step {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            padding-top: 4rem;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            background: #4361ee;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .step h3 {
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .resources-section {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+
+        .resources-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1a1a2e;
+        }
+
+        .resource-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .resource-icon {
+            font-size: 2rem;
+            color: #4361ee;
+            margin-bottom: 1rem;
+        }
+
+        .resource-card h3 {
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .resource-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #4361ee;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        .caregiver-section {
+            padding: 3rem 0;
+        }
+
+        .caregiver-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1a1a2e;
+        }
+
+        .caregiver-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tip {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .tip h3 {
+            color: #4361ee;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .prevention-section {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+
+        .prevention-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1a1a2e;
+        }
+
+        .prevention-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .prevention-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .prevention-item i {
+            font-size: 2rem;
+            color: #4361ee;
+            margin-bottom: 1rem;
+        }
+
+        .prevention-item h3 {
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medications | NEUROSTROKE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <main class="medications-container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Stroke Medications</h1>
+                <p>Understanding and properly managing medications is crucial for stroke prevention and recovery.</p>
+            </div>
+        </section>
+
+        <section class="medications-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Common Stroke Medications</h2>
+                    <p>These medications help prevent strokes or treat conditions that increase stroke risk</p>
+                </div>
+
+                <div class="medication-types">
+                    <div class="medication-card">
+                        <div class="medication-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Antiplatelet Drugs</h3>
+                        <ul>
+                            <li>Aspirin</li>
+                            <li>Clopidogrel (Plavix)</li>
+                            <li>Dipyridamole (Persantine)</li>
+                        </ul>
+                        <p>Prevent blood clots by keeping platelets from sticking together.</p>
+                    </div>
+
+                    <div class="medication-card">
+                        <div class="medication-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3>Anticoagulants</h3>
+                        <ul>
+                            <li>Warfarin (Coumadin)</li>
+                            <li>Dabigatran (Pradaxa)</li>
+                            <li>Apixaban (Eliquis)</li>
+                        </ul>
+                        <p>Slow down blood clotting to prevent stroke in atrial fibrillation.</p>
+                    </div>
+
+                    <div class="medication-card">
+                        <div class="medication-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Blood Pressure Medications</h3>
+                        <ul>
+                            <li>ACE inhibitors</li>
+                            <li>Beta blockers</li>
+                            <li>Diuretics</li>
+                        </ul>
+                        <p>Control high blood pressure, the leading cause of stroke.</p>
+                    </div>
+
+                    <div class="medication-card">
+                        <div class="medication-icon">
+                            <i class="fas fa-syringe"></i>
+                        </div>
+                        <h3>Thrombolytics</h3>
+                        <ul>
+                            <li>Alteplase (tPA)</li>
+                        </ul>
+                        <p>Emergency treatment to dissolve clots causing ischemic stroke.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="medication-management">
+            <div class="container">
+                <h2>Medication Management Tips</h2>
+                <div class="tips-grid">
+                    <div class="tip">
+                        <h3><i class="fas fa-clock"></i> Consistency</h3>
+                        <p>Take medications at the same time each day to maintain steady levels in your body.</p>
+                    </div>
+                    <div class="tip">
+                        <h3><i class="fas fa-calendar-check"></i> Refill Reminders</h3>
+                        <p>Set reminders to refill prescriptions before you run out.</p>
+                    </div>
+                    <div class="tip">
+                        <h3><i class="fas fa-book-medical"></i> Know Your Meds</h3>
+                        <p>Understand what each medication does and potential side effects.</p>
+                    </div>
+                    <div class="tip">
+                        <h3><i class="fas fa-user-md"></i> Doctor Communication</h3>
+                        <p>Report any side effects or concerns to your healthcare provider.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+     {% include 'chatbot.html' %}
+    {% include 'footer.html' %}
+
+    <style>
+        /* Medications Page Styles */
+        .medications-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .medication-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .medication-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .medication-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .medication-icon {
+            font-size: 2rem;
+            color: #4361ee;
+            margin-bottom: 1rem;
+        }
+
+        .medication-card h3 {
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .medication-card ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .medication-card ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .medication-management {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+
+        .medication-management h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1a1a2e;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .tip {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .tip h3 {
+            color: #4361ee;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!-- footer.html -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-row">
+            <div class="footer-col">
+                <h4>NEUROSTROKE</h4>
+                <p>Brain Stroke Prediction and Detection System</p>
+                <div class="footer-logo">
+                    <img src="{{ url_for('static', filename='neurostroke-logo.png') }}" alt="NEUROSTROKE" class="footer-logo-img">
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('index') }}">Prediction</a></li>
+                    <li><a href="{{ url_for('detection') }}">Detection</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="{{ url_for('brain_health') }}">Brain Health</a></li>
+                    <li><a href="{{ url_for('medications') }}">Medications</a></li>
+                    <li><a href="{{ url_for('lifestyle') }}">Lifestyle</a></li>
+                    <li><a href="{{ url_for('life_after_stroke') }}">Life After Stroke</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> support@neurostroke.com</li>
+                    <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Health St, Medical City</li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 NEUROSTROKE. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* Footer Styles */
+    .site-footer {
+        background-color: #1a1a2e;
+        color: white;
+        padding: 2rem 0 0;
+        font-size: 0.9rem;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .footer-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .footer-col h4 {
+        color: #4895ef;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+
+    .footer-col p {
+        margin-bottom: 1rem;
+    }
+
+    .footer-col ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-col ul li {
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-col ul li a {
+        color: #f8f9fa;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-col ul li a:hover {
+        color: #4895ef;
+    }
+
+    .footer-col i {
+        margin-right: 0.5rem;
+        color: #4895ef;
+    }
+
+    .footer-logo {
+        margin-top: 1rem;
+    }
+
+    .footer-logo-img {
+        height: 50px;
+        width: auto;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .social-links a {
+        color: white;
+        background: rgba(255,255,255,0.1);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+        background: #4895ef;
+        transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding: 1rem 0;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .footer-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

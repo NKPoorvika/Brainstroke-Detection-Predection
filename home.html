@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StrokePredict - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --accent-color: #4895ef;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+            --success-color: #4cc9f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f7fa;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 0 100px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #555;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f4ff;
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: #f9fafc;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background-color: #f5f7fa;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 60px 0;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial {
+            padding: 30px;
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+{% include 'navbar.html' %}
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Predict and Prevent Stroke Risks</h1>
+            <p>Our advanced AI-powered tools help you assess your stroke risk factors and provide personalized recommendations for prevention.</p>
+            <div class="cta-buttons">
+                <a href="index.html" class="btn btn-primary">Check Your Risk Now</a>
+                <a href="#" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose StrokePredict</h2>
+                <p>Our comprehensive platform offers multiple ways to assess and understand your stroke risk factors.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Our advanced algorithms analyze multiple risk factors to provide accurate stroke risk predictions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Personalized Reports</h3>
+                    <p>Get detailed reports with your risk assessment and personalized prevention recommendations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>Medical Insights</h3>
+                    <p>Access expert-curated information about stroke prevention and healthy living.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Understanding Stroke Risks</h2>
+                    <p>Stroke is a leading cause of death and disability worldwide, but many strokes can be prevented by managing risk factors.</p>
+                    <p>Our platform helps you identify your personal risk factors based on medical research and provides actionable insights to reduce your risk.</p>
+                    <a href="#" class="btn btn-primary">Learn About Risk Factors</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://via.placeholder.com/600x400" alt="Doctor discussing stroke prevention">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>15M</h3>
+                    <p>People suffer stroke worldwide each year</p>
+                </div>
+                <div class="stat-item">
+                    <h3>80%</h3>
+                    <p>Of strokes are preventable</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1 in 4</h3>
+                    <p>Adults will have a stroke in their lifetime</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Users Say</h2>
+                <p>Hear from people who have used StrokePredict to assess their risks.</p>
+            </div>
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <p class="testimonial-text">"StrokePredict helped me identify risk factors I wasn't aware of. After following their recommendations, my doctor confirmed my health markers improved significantly."</p>
+                    <p class="testimonial-author">- Sarah Johnson, 52</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+     {% include 'chatbot.html' %}
+{% include 'footer.html' %}
+
+    <!-- Chatbot HTML -->
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Chatbot functionality
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotContainer = document.getElementById('chatbotContainer');
+        const closeChatbot = document.getElementById('closeChatbot');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const sendMessageBtn = document.getElementById('sendMessage');
+
+        let chatbotOpen = false;
+
+        chatbotToggle.addEventListener('click', () => {
+            chatbotOpen = !chatbotOpen;
+            if (chatbotOpen) {
+                chatbotContainer.classList.add('open');
+            } else {
+                chatbotContainer.classList.remove('open');
+            }
+        });
+
+        closeChatbot.addEventListener('click', () => {
+            chatbotOpen = false;
+            chatbotContainer.classList.remove('open');
+        });
+
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.textContent = text;
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        function handleUserMessage() {
+            const message = chatbotInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                chatbotInput.value = '';
+                
+                // Simulate bot response
+                setTimeout(() => {
+                    let response;
+                    const lowerMessage = message.toLowerCase();
+                    
+                    if (lowerMessage.includes('stroke') && lowerMessage.includes('risk')) {
+                        response = "Stroke risk can be assessed using our prediction tools. You can provide your health details or upload a brain scan image for analysis. Would you like me to direct you to our risk assessment page?";
+                    } 
+                    else if (lowerMessage.includes('bmi') || lowerMessage.includes('body mass index')) {
+                        response = "BMI (Body Mass Index) is a measure of body fat based on height and weight. A healthy BMI is typically between 18.5 and 24.9. You can calculate yours using our BMI calculator tool on the risk assessment page.";
+                    } 
+                    else if (lowerMessage.includes('hi') || lowerMessage.includes('hello') || lowerMessage.includes('hey')) {
+                        response = "Hello! I'm the StrokePredict assistant. I can help with questions about stroke risk assessment, prevention tips, and using our tools. What would you like to know?";
+                    } 
+                    else if (lowerMessage.includes('contact') || lowerMessage.includes('support')) {
+                        response = "You can reach our support team through the contact page or email support@strokepredict.com. Our team is available Monday-Friday, 9am-5pm.";
+                    } 
+                    else if (lowerMessage.includes('prevent') || lowerMessage.includes('reduce risk')) {
+                        response = "To reduce stroke risk: 1) Control blood pressure, 2) Manage diabetes, 3) Quit smoking, 4) Maintain healthy weight, 5) Exercise regularly, 6) Eat a balanced diet. Would you like more details on any of these?";
+                    }
+                    else if (lowerMessage.includes('symptom') || lowerMessage.includes('sign')) {
+                        response = "Common stroke symptoms (remember FAST): Face drooping, Arm weakness, Speech difficulty, Time to call emergency. Other symptoms include sudden numbness, confusion, vision problems, dizziness, or severe headache.";
+                    }
+                    else if (lowerMessage.includes('assessment') || lowerMessage.includes('test')) {
+                        response = "Our risk assessment tool evaluates factors like age, blood pressure, medical history, and lifestyle. It takes about 5 minutes. Would you like me to direct you there?";
+                    }
+                    else if (lowerMessage.includes('thank')) {
+                        response = "You're welcome! Is there anything else I can help you with?";
+                    }
+                    else {
+                        response = "I'm an AI assistant for StrokePredict. I can help with questions about stroke risk assessment, prevention tips, BMI calculation, and using our tools. Could you please rephrase your question?";
+                    }
+                    addMessage(response, false);
+                }, 1000);
+            }
+        }
+
+        sendMessageBtn.addEventListener('click', handleUserMessage);
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserMessage();
+            }
+        });
+    </script>
+</body>
+</html>

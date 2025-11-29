@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator | StrokePredict</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --accent-color: #4895ef;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1.text-center {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+        
+        .bmi-result {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 1rem 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .bmi-category {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-container {
+            margin-bottom: 2rem;
+        }
+        
+        .slider-container label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .slider-value {
+            font-weight: bold;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            margin-top: 0.5rem;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="range"]:hover {
+            transform: scaleY(1.2);
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        /* Color transitions for BMI categories */
+        .underweight { color: #ffc107; }
+        .normal { color: #28a745; }
+        .overweight { color: #fd7e14; }
+        .obese { color: #dc3545; }
+        
+        /* Glowing effect when values change */
+        .value-change {
+            animation: glow 0.5s;
+        }
+        
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px transparent; }
+            50% { text-shadow: 0 0 15px currentColor; }
+            100% { text-shadow: 0 0 5px transparent; }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <div class="card">
+            <h1 class="text-center">BMI Calculator</h1>
+            
+            <div class="bmi-result" id="bmi-result">20.0</div>
+            <div class="bmi-category" id="bmi-category">Normal weight</div>
+            
+            <div class="slider-container">
+                <label for="weight">
+                    Weight (kg):
+                    <span class="slider-value" id="weight-val">20 kg</span>
+                </label>
+                <input type="range" min="20" max="200" value="20" id="weight" oninput="calculateBMI()">
+            </div>
+            
+            <div class="slider-container">
+                <label for="height">
+                    Height (cm):
+                    <span class="slider-value" id="height-val">100 cm</span>
+                </label>
+                <input type="range" min="100" max="250" value="100" id="height" oninput="calculateBMI()">
+            </div>
+        </div>
+    </div>
+     {% include 'chatbot.html' %}
+{% include 'footer.html' %}
+    <script>
+        function calculateBMI() {
+            // Get input values
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100; // Convert to meters
+            
+            // Update displayed values with animation
+            const weightVal = document.getElementById('weight-val');
+            const heightVal = document.getElementById('height-val');
+            
+            weightVal.textContent = weight + ' kg';
+            heightVal.textContent = (height * 100) + ' cm';
+            
+            // Add animation class
+            weightVal.classList.add('value-change');
+            heightVal.classList.add('value-change');
+            setTimeout(() => {
+                weightVal.classList.remove('value-change');
+                heightVal.classList.remove('value-change');
+            }, 500);
+            
+            // Calculate BMI
+            const bmi = (weight / (height * height)).toFixed(1);
+            const bmiResult = document.getElementById('bmi-result');
+            bmiResult.textContent = bmi;
+            bmiResult.classList.add('value-change');
+            setTimeout(() => bmiResult.classList.remove('value-change'), 500);
+            
+            // Determine category
+            let category, colorClass;
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                colorClass = 'underweight';
+            } else if (bmi >= 18.5 && bmi < 25) {
+                category = 'Normal weight';
+                colorClass = 'normal';
+            } else if (bmi >= 25 && bmi < 30) {
+                category = 'Overweight';
+                colorClass = 'overweight';
+            } else {
+                category = 'Obese';
+                colorClass = 'obese';
+            }
+            
+            const bmiCategory = document.getElementById('bmi-category');
+            bmiCategory.textContent = category;
+            bmiCategory.className = 'bmi-category ' + colorClass;
+            bmiCategory.classList.add('value-change');
+            setTimeout(() => bmiCategory.classList.remove('value-change'), 500);
+        }
+        
+        // Initialize calculator
+        calculateBMI();
+    </script>
+</body>
+</html>

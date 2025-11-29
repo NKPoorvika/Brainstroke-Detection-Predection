@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse User Inputs | StrokePredict</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --accent-color: #4895ef;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            padding-top: 80px; /* Adjusted padding to accommodate the smaller navbar */
+        }
+
+        .browse-header {
+            background-color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .filter-panel {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .dataset-table {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .table th {
+            background-color: var(--dark-color);
+            color: white;
+            cursor: pointer;
+        }
+
+        .table th i {
+            margin-left: 5px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .table th.sorted-asc i.fa-sort-up {
+            color: white;
+        }
+
+        .table th.sorted-desc i.fa-sort-down {
+            color: white;
+        }
+
+        .badge-success {
+            background-color: #4cc9f0;
+        }
+
+        .badge-danger {
+            background-color: #f72585;
+        }
+
+        .detail-view {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: none; /* Initially hidden */
+        }
+        
+        .report-actions {
+            margin-top: 2rem;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="browse-header">
+            <h1>Browse Structured Dataset</h1>
+            <p class="lead">Explore the history of user-provided health metrics and stroke risk predictions.</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-3">
+                <div class="filter-panel">
+                    <h4>Filters</h4>
+                    <div class="mb-3">
+                        <label class="form-label">Risk Level</label>
+                        <select id="riskLevelFilter" class="form-select">
+                            <option value="All">All</option>
+                            <option value="Low Risk">Low Risk</option>
+                            <option value="Moderate Risk">Moderate Risk</option>
+                            <option value="High Risk">High Risk</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date Range</label>
+                        <input type="date" id="startDateFilter" class="form-control mb-2" placeholder="From">
+                        <input type="date" id="endDateFilter" class="form-control" placeholder="To">
+                    </div>
+                    <button id="applyFiltersBtn" class="btn btn-primary w-100">Apply Filters</button>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="dataset-table">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th data-column="id" data-order="asc">ID <i class="fas fa-sort"></i></th>
+                                <th data-column="username" data-order="asc">Username <i class="fas fa-sort"></i></th>
+                                <th data-column="age" data-order="asc">Age <i class="fas fa-sort"></i></th>
+                                <th data-column="gender" data-order="asc">Gender <i class="fas fa-sort"></i></th>
+                                <th data-column="risk_level" data-order="asc">Risk Level <i class="fas fa-sort"></i></th>
+                                <th data-column="prediction" data-order="asc">Prediction <i class="fas fa-sort"></i></th>
+                                <th data-column="date" data-order="asc">Date <i class="fas fa-sort"></i></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                            {% for prediction in predections %}
+                            <tr data-prediction-id="{{ prediction.id }}" data-risk-level="{{ prediction.risk_level }}" data-timestamp="{{ prediction.timestamp.split(' ')[0] }}">
+                                <td>#{{ prediction.id }}</td>
+                                <td>{{ prediction.username }}</td>
+                                <td>{{ prediction.age }}</td>
+                                <td>{{ 'Male' if prediction.gender == 1 else 'Female' }}</td>
+                                <td><span class="badge {% if 'High' in prediction.risk_level or 'Moderate' in prediction.risk_level %}badge-danger{% else %}badge-success{% endif %}">{{ prediction.risk_level }}</span></td>
+                                <td>{{ prediction.prediction_text }}</td>
+                                <td>{{ prediction.timestamp.split(' ')[0] }}</td>
+                                <td><button class="btn btn-sm btn-outline-primary view-details-btn" data-id="{{ prediction.id }}">View</button></td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="8" class="text-center">No structured data found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>  
+                    </table>
+                </div>
+                                        <nav aria-label="Browse pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('browse', page=page-1) }}" tabindex="-1">Previous</a>
+                </li>
+                {% for p in range(1, pages + 1) %}
+                <li class="page-item {% if p == page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('browse', page=p) }}">{{ p }}</a>
+                </li>
+                {% endfor %}
+                <li class="page-item {% if page == pages %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('browse', page=page+1) }}">Next</a>
+                </li>
+            </ul>
+        </nav> 
+            </div>
+        </div>
+        
+        <div class="detail-view" id="detailView">
+            <h3 id="detailTitle"></h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Username:</strong> <span id="detailUsername"></span></p>
+                    <p><strong>Age:</strong> <span id="detailAge"></span></p>
+                    <p><strong>Gender:</strong> <span id="detailGender"></span></p>
+                    <p><strong>Height:</strong> <span id="detailHeight"></span> cm</p>
+                    <p><strong>Weight:</strong> <span id="detailWeight"></span> kg</p>
+                    <p><strong>BMI:</strong> <span id="detailBMI"></span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Risk Level:</strong> <span id="detailRiskLevel"></span></p>
+                    <p><strong>Risk Score:</strong> <span id="detailRiskScore"></span></p>
+                    <p><strong>Prediction:</strong> <span id="detailPredictionText"></span></p>
+                    <p><strong>Blood Pressure:</strong> <span id="detailBloodPressure"></span> mmHg</p>
+                    <p><strong>Cholesterol:</strong> <span id="detailCholesterol"></span> mg/dL</p>
+                    <p><strong>Glucose:</strong> <span id="detailGlucose"></span> mg/dL</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h4>Lifestyle and History</h4>
+                <p><strong>Smoking:</strong> <span id="detailSmoking"></span></p>
+                <p><strong>Activity Level:</strong> <span id="detailActivity"></span></p>
+                <p><strong>Family History:</strong> <span id="detailHistory"></span></p>
+            </div>
+            <div class="report-actions">
+                <button id="generatePdfBtn" class="btn btn-primary">
+                    <i class="fas fa-file-pdf"></i> Generate PDF Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewButtons = document.querySelectorAll('.view-details-btn');
+            const detailView = document.getElementById('detailView');
+            const detailTitle = document.getElementById('detailTitle');
+            const detailUsername = document.getElementById('detailUsername');
+            const detailAge = document.getElementById('detailAge');
+            const detailGender = document.getElementById('detailGender');
+            const detailHeight = document.getElementById('detailHeight');
+            const detailWeight = document.getElementById('detailWeight');
+            const detailBMI = document.getElementById('detailBMI');
+            const detailRiskLevel = document.getElementById('detailRiskLevel');
+            const detailRiskScore = document.getElementById('detailRiskScore');
+            const detailPredictionText = document.getElementById('detailPredictionText');
+            const detailBloodPressure = document.getElementById('detailBloodPressure');
+            const detailCholesterol = document.getElementById('detailCholesterol');
+            const detailGlucose = document.getElementById('detailGlucose');
+            const detailSmoking = document.getElementById('detailSmoking');
+            const detailActivity = document.getElementById('detailActivity');
+            const detailHistory = document.getElementById('detailHistory');
+            
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const predictionId = this.dataset.id;
+                    
+                    fetch(`/api/get_structured_prediction_details/${predictionId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                console.error('Error fetching details:', data.error);
+                                return;
+                            }
+                            
+                            detailTitle.textContent = `Prediction #${data.id} Details`;
+                            detailUsername.textContent = data.username;
+                            detailAge.textContent = data.age;
+                            detailGender.textContent = data.gender === 1 ? 'Male' : 'Female';
+                            detailHeight.textContent = data.height;
+                            detailWeight.textContent = data.weight;
+                            detailBMI.textContent = data.bmi;
+
+                            detailRiskLevel.textContent = data.risk_level;
+                            detailRiskScore.textContent = data.risk_score;
+                            detailRiskLevel.className = `badge ${data.risk_level.includes('High') || data.risk_level.includes('Moderate') ? 'badge-danger' : 'badge-success'}`;
+                            detailPredictionText.textContent = data.prediction_text;
+
+                            detailBloodPressure.textContent = `${data.blood_pressure_systolic}/${data.blood_pressure_diastolic}`;
+                            detailCholesterol.textContent = data.cholesterol;
+                            detailGlucose.textContent = data.glucose;
+
+                            const smokingStatus = {0: 'Never smoked', 1: 'Former smoker', 2: 'Current smoker'}[data.smoking];
+                            detailSmoking.textContent = smokingStatus;
+
+                            const activityLevel = {0: 'Sedentary', 1: 'Light', 2: 'Moderate', 3: 'Active'}[data.activity];
+                            detailActivity.textContent = activityLevel;
+                            
+                            detailHistory.textContent = data.history === 1 ? 'Yes' : 'No';
+
+                            detailView.style.display = 'block';
+                        })
+                        .catch(error => console.error('Failed to fetch details:', error));
+                });
+            });
+
+            // --- FILTERING LOGIC ---
+            const riskLevelFilter = document.getElementById('riskLevelFilter');
+            const startDateFilter = document.getElementById('startDateFilter');
+            const endDateFilter = document.getElementById('endDateFilter');
+            const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+            const dataTableBody = document.getElementById('dataTableBody');
+
+            // Function to apply filters to the table
+            function applyFilters() {
+                const selectedRiskLevel = riskLevelFilter.value;
+                const startDate = startDateFilter.value ? new Date(startDateFilter.value) : null;
+                const endDate = endDateFilter.value ? new Date(endDateFilter.value) : null;
+
+                const rows = dataTableBody.getElementsByTagName('tr');
+
+                for (let row of rows) {
+                    const rowRiskLevel = row.getAttribute('data-risk-level');
+                    const rowTimestamp = new Date(row.getAttribute('data-timestamp'));
+                    
+                    const matchesRiskLevel = (selectedRiskLevel === 'All' || rowRiskLevel === selectedRiskLevel);
+                    
+                    let matchesDateRange = true;
+                    if (startDate && rowTimestamp < startDate) {
+                        matchesDateRange = false;
+                    }
+                    if (endDate && rowTimestamp > endDate) {
+                        matchesDateRange = false;
+                    }
+
+                    if (matchesRiskLevel && matchesDateRange) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            }
+
+            // Event listener for the Apply Filters button
+            applyFiltersBtn.addEventListener('click', applyFilters);
+
+            // Optional: Apply filters on change for a more dynamic feel
+            riskLevelFilter.addEventListener('change', applyFilters);
+            
+            
+            // --- PDF GENERATION LOGIC ---
+            document.getElementById('generatePdfBtn').addEventListener('click', function() {
+                const reportElement = document.getElementById('detailView');
+                
+                // Temporarily hide the button itself so it's not in the PDF
+                const btn = this;
+                btn.style.display = 'none';
+                
+                html2canvas(reportElement, { scale: 2 }).then(canvas => {
+                    const { jsPDF } = window.jspdf;
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const imgProps= pdf.getImageProperties(imgData);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    pdf.save('StrokePredict_Report.pdf');
+
+                    // Restore the button's display
+                    btn.style.display = 'block';
+                });
+            });
+
+            // --- Table Sorting Logic ---
+            const sortableColumns = document.querySelectorAll('.dataset-table th');
+
+            sortableColumns.forEach(header => {
+                // Skip the "Actions" column
+                if (header.textContent.trim() === 'Actions') {
+                    return;
+                }
+
+                header.addEventListener('click', () => {
+                    const tableBody = document.getElementById('dataTableBody');
+                    const rows = Array.from(tableBody.querySelectorAll('tr'));
+                    
+                    // Check if there are actual data rows to sort
+                    if (rows.length === 0 || rows[0].getAttribute('colspan')) {
+                        return;
+                    }
+
+                    const column = header.dataset.column;
+                    const order = header.dataset.order === 'asc' ? 'desc' : 'asc';
+                    
+                    // Reset all other headers' icons
+                    sortableColumns.forEach(h => {
+                        const icon = h.querySelector('i');
+                        if (icon) {
+                            icon.className = 'fas fa-sort';
+                        }
+                    });
+
+                    // Update the clicked header's icon and data-order
+                    const icon = header.querySelector('i');
+                    if (icon) {
+                        icon.className = `fas fa-sort-${order === 'asc' ? 'up' : 'down'}`;
+                    }
+                    header.dataset.order = order;
+
+                    const sortedRows = rows.sort((a, b) => {
+                        const aValue = a.querySelector(`td:nth-child(${header.cellIndex + 1})`).textContent.trim().replace('#', '');
+                        const bValue = b.querySelector(`td:nth-child(${header.cellIndex + 1})`).textContent.trim().replace('#', '');
+                        
+                        let comparison = 0;
+                        if (column === 'id' || column === 'age') {
+                            comparison = parseInt(aValue) - parseInt(bValue);
+                        } else if (column === 'date') {
+                            const dateA = new Date(aValue);
+                            const dateB = new Date(bValue);
+                            comparison = dateA - dateB;
+                        } else {
+                            comparison = aValue.localeCompare(bValue);
+                        }
+
+                        return order === 'asc' ? comparison : -comparison;
+                    });
+
+                    // Re-append sorted rows to the table
+                    sortedRows.forEach(row => tableBody.appendChild(row));
+                });
+            });
+        });
+    </script>
+</body>
+</html>

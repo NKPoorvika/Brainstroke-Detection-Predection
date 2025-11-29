@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifestyle | NEUROSTROKE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <main class="lifestyle-container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Healthy Lifestyle</h1>
+                <p>Adopting healthy habits can significantly reduce your risk of stroke and improve overall well-being.</p>
+            </div>
+        </section>
+
+        <section class="nutrition-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Healthy Eating for Stroke Prevention</h2>
+                    <p>A balanced diet plays a crucial role in maintaining cardiovascular health</p>
+                </div>
+
+                <div class="diet-tips">
+                    <div class="diet-card">
+                        <div class="diet-icon">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                        <h3>Fruits & Vegetables</h3>
+                        <p>Aim for 5-9 servings daily. Rich in antioxidants and potassium which help lower blood pressure.</p>
+                    </div>
+
+                    <div class="diet-card">
+                        <div class="diet-icon">
+                            <i class="fas fa-fish"></i>
+                        </div>
+                        <h3>Omega-3 Fatty Acids</h3>
+                        <p>Found in fatty fish, flaxseeds, and walnuts. Help reduce inflammation and improve cholesterol.</p>
+                    </div>
+
+                    <div class="diet-card">
+                        <div class="diet-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Whole Grains</h3>
+                        <p>Choose whole wheat, oats, quinoa, and brown rice for fiber that helps control cholesterol.</p>
+                    </div>
+
+                    <div class="diet-card">
+                        <div class="diet-icon">
+                            <i class="fas fa-hand-holding-water"></i>
+                        </div>
+                        <h3>Limit Sodium</h3>
+                        <p>Aim for less than 2,300mg daily (1,500mg if you have high blood pressure).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="activity-section">
+            <div class="container">
+                <h2>Physical Activity Recommendations</h2>
+                <div class="activity-grid">
+                    <div class="activity-card">
+                        <h3>Aerobic Exercise</h3>
+                        <p>150 minutes per week of moderate activity (brisk walking, swimming) or 75 minutes of vigorous activity.</p>
+                    </div>
+                    <div class="activity-card">
+                        <h3>Strength Training</h3>
+                        <p>2-3 days per week focusing on major muscle groups.</p>
+                    </div>
+                    <div class="activity-card">
+                        <h3>Flexibility & Balance</h3>
+                        <p>Yoga or tai chi 2-3 times per week to improve coordination and prevent falls.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="habits-section">
+            <div class="container">
+                <h2>Other Healthy Habits</h2>
+                <div class="habits-list">
+                    <div class="habit">
+                        <i class="fas fa-smoking-ban"></i>
+                        <h3>Quit Smoking</h3>
+                        <p>Smoking doubles stroke risk by damaging blood vessels.</p>
+                    </div>
+                    <div class="habit">
+                        <i class="fas fa-wine-glass-alt"></i>
+                        <h3>Limit Alcohol</h3>
+                        <p>No more than 1 drink per day for women, 2 for men.</p>
+                    </div>
+                    <div class="habit">
+                        <i class="fas fa-bed"></i>
+                        <h3>Quality Sleep</h3>
+                        <p>7-9 hours per night to allow brain recovery.</p>
+                    </div>
+                    <div class="habit">
+                        <i class="fas fa-heart"></i>
+                        <h3>Stress Management</h3>
+                        <p>Chronic stress increases stroke risk - practice relaxation techniques.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+     {% include 'chatbot.html' %}
+    {% include 'footer.html' %}
+
+    <style>
+        /* Lifestyle Page Styles */
+        .lifestyle-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .diet-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .diet-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .diet-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .diet-icon {
+            font-size: 2rem;
+            color: #4361ee;
+            margin-bottom: 1rem;
+        }
+
+        .diet-card h3 {
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .activity-section {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+
+        .activity-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1a1a2e;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .activity-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .activity-card h3 {
+            color: #4361ee;
+            margin-bottom: 0.5rem;
+        }
+
+        .habits-section {
+            padding: 3rem 0;
+        }
+
+        .habits-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1a1a2e;
+        }
+
+        .habits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .habit {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .habit i {
+            font-size: 2rem;
+            color: #4361ee;
+            margin-bottom: 1rem;
+        }
+
+        .habit h3 {
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</body>
+</html>

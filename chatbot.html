@@ -1,0 +1,215 @@
+ <!-- Chatbot HTML -->
+    <div class="chatbot-toggle" id="chatbotToggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </div>
+
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <h3>StrokePredict Assistant</h3>
+            <button id="closeChatbot" style="background: none; border: none; color: white; cursor: pointer;">×</button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">Hello! I'm your StrokePredict assistant. How can I help you today?</div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbotInput" placeholder="Type your question...">
+            <button id="sendMessage">Send</button>
+        </div>
+    </div>
+
+        <script>
+        // Chatbot functionality
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotContainer = document.getElementById('chatbotContainer');
+        const closeChatbot = document.getElementById('closeChatbot');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const sendMessageBtn = document.getElementById('sendMessage');
+
+        let chatbotOpen = false;
+
+        chatbotToggle.addEventListener('click', () => {
+            chatbotOpen = !chatbotOpen;
+            if (chatbotOpen) {
+                chatbotContainer.classList.add('open');
+            } else {
+                chatbotContainer.classList.remove('open');
+            }
+        });
+
+        closeChatbot.addEventListener('click', () => {
+            chatbotOpen = false;
+            chatbotContainer.classList.remove('open');
+        });
+
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+            messageDiv.textContent = text;
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        async function handleUserMessage() {
+            const message = chatbotInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                chatbotInput.value = '';
+                
+                let response;
+                if (message.toLowerCase().includes('stroke') && message.toLowerCase().includes('risk')) {
+                    response = "Stroke risk can be assessed using our prediction tools. You can provide your health details or upload a brain scan image for analysis.";
+                } else if (message.toLowerCase().includes('bmi')) {
+                    response = "BMI (Body Mass Index) is a measure of body fat based on height and weight. You can calculate yours using our BMI calculator tool.";
+                } else if (message.toLowerCase().includes('hi') || message.toLowerCase().includes('hello')) {
+                    response = "Hello! How can I assist you with stroke prediction or prevention today?";
+                } else if (message.toLowerCase().includes('contact')) {
+                    response = "You can reach us through the contact page or email support@strokepredict.com";
+                } else if (message.toLowerCase().includes('analytics')) {
+                    try {
+                        const res = await fetch('/api/analytics_summary');
+                        if (!res.ok) throw new Error('Failed to fetch analytics data.');
+                        const data = await res.json();
+                        response = `Based on your history, you have made ${data.total_predictions} predictions. There were ${data.stroke_count} stroke predictions and ${data.normal_count} normal predictions. Your risk score averages to ${data.average_risk_score.toFixed(2)}.`;
+                    } catch (error) {
+                        console.error("Error fetching analytics summary:", error);
+                        response = "I'm sorry, I couldn't retrieve the analytics data at this time.";
+                    }
+                }
+                 else {
+                    response = "I'm an AI assistant for StrokePredict. I can help with questions about stroke risk assessment, BMI calculation, and using our tools.";
+                }
+                setTimeout(() => {
+                    addMessage(response, false);
+                }, 1000);
+            }
+        }
+
+        sendMessageBtn.addEventListener('click', handleUserMessage);
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserMessage();
+            }
+        });
+    </script>
+
+    <style> 
+    :root {
+            --primary-color: #4361ee;
+            --accent-color: #4895ef;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+            --success-color: #4cc9f0;
+        }
+    @keyframes glow-pulse {
+            0% { box-shadow: 0 0 5px rgba(72, 149, 239, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(72, 149, 239, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(72, 149, 239, 0.5); }
+        }
+    /* Chatbot styles */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-container.open {
+            transform: translateY(0);
+        }
+
+        .chatbot-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f5f5f5;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chatbot-input button {
+            margin-left: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+
+        .bot-message {
+            background-color: #e5e5ea;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .user-message {
+            background-color: var(--accent-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+</style>

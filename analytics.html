@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics | StrokePredict</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --accent-color: #4895ef;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --text-color: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            padding-top: 120px;
+        }
+        
+        .analytics-header {
+            background-color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .chart-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .section-title {
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .dataset-table {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .table th {
+            background-color: var(--dark-color);
+            color: white;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .table th .sort-icon {
+            margin-left: 8px;
+            font-size: 0.8em;
+            vertical-align: middle;
+        }
+        
+        .badge-primary {
+            background-color: var(--primary-color);
+        }
+        
+        .badge-success {
+            background-color: #4cc9f0;
+        }
+        
+        .badge-danger {
+            background-color: #f72585;
+        }
+
+        /* Custom style to make the graph a rectangular shape */
+        .chart-rectangular {
+            height: 450px; /* Fixed height for a rectangular shape */
+            max-height: 450px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="analytics-header">
+            <h1>Brain Stroke Detection Analytics</h1>
+            <p class="lead">Performance metrics and insights from your personal health data.</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-value" id="accuracy-value">94.7%</div>
+                    <div class="metric-label">Accuracy</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-value" id="precision-value">92.3%</div>
+                    <div class="metric-label">Precision</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-value" id="recall-value">95.1%</div>
+                    <div class="metric-label">Recall</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="metric-card">
+                    <div class="metric-value" id="f1-score-value">93.7%</div>
+                    <div class="metric-label">F1 Score</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="chart-container chart-rectangular">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="section-title mb-0">Monthly Predictions and Risk Trends</h3>
+                        <div>
+                            <label for="year-select" class="form-label mb-0 me-2">Select Year:</label>
+                            <select id="year-select" class="form-select d-inline-block w-auto"></select>
+                        </div>
+                    </div>
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="chart-container">
+                    <h3 class="section-title">Prediction Distribution</h3>
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="chart-container">
+            <h3 class="section-title">All Predictions</h3>
+            <div class="dataset-table">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th data-column="id" data-order="asc">ID <i class="fas fa-sort sort-icon"></i></th>
+                            <th data-column="type" data-order="asc">Type <i class="fas fa-sort sort-icon"></i></th>
+                            <th data-column="prediction" data-order="asc">Prediction <i class="fas fa-sort sort-icon"></i></th>
+                            <th data-column="score" data-order="asc">Score <i class="fas fa-sort sort-icon"></i></th>
+                            <th data-column="date" data-order="asc">Date <i class="fas fa-sort sort-icon"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="predictions-table-body">
+                        <tr>
+                            <td colspan="5" class="text-center">Loading predictions...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-3" id="pagination-controls">
+                    </ul>
+            </nav>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // New Chart Logic
+            const monthlyChartCtx = document.getElementById('monthlyChart').getContext('2d');
+            let monthlyChart; // Variable to hold the chart instance
+
+            function createMonthlyChart(data) {
+                // Check if a chart instance already exists and destroy it
+                if (monthlyChart) {
+                    monthlyChart.destroy();
+                }
+
+                // Get months and data values
+                const months = data.map(d => d.month);
+                const haveStrokeRisk = data.map(d => d['Patient have stroke risk']);
+                const notHaveStrokeRisk = data.map(d => d['Patient does NOT have stroke risk']);
+                const brainStrokeDetected = data.map(d => d['Brain Stroke Detected']);
+                const noStrokeDetected = data.map(d => d['No Stroke Detected']);
+                const averageScores = data.map(d => d.Average);
+
+                monthlyChart = new Chart(monthlyChartCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: months,
+                        datasets: [
+                            {
+                                label: 'Patient have stroke risk',
+                                data: haveStrokeRisk,
+                                backgroundColor: '#f72585', // A distinct color for 'have stroke risk'
+                                stack: 'Stack 0',
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'Patient does NOT have stroke risk',
+                                data: notHaveStrokeRisk,
+                                backgroundColor: '#4cc9f0', // A distinct color for 'no stroke risk'
+                                stack: 'Stack 0',
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'Brain Stroke Detected',
+                                data: brainStrokeDetected,
+                                backgroundColor: '#4361ee', // Blue color for image-based detection
+                                stack: 'Stack 0',
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'No Stroke Detected',
+                                data: noStrokeDetected,
+                                backgroundColor: '#4895ef', // Lighter blue for no image-based detection
+                                stack: 'Stack 0',
+                                yAxisID: 'y'
+                            },
+                            {
+                                type: 'line',
+                                label: 'Average Confidence/Risk (%)',
+                                data: averageScores,
+                                borderColor: '#00b0ff', // A line color
+                                backgroundColor: 'rgba(0, 176, 255, 0.2)',
+                                fill: false,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Prediction Count'
+                                },
+                                stacked: true // Stack the bar charts
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Average Confidence/Risk (%)'
+                                },
+                                grid: {
+                                    drawOnChartArea: false, // Only draw the grid for the left Y axis
+                                },
+                                min: 0,
+                                max: 100 // Set a fixed scale for percentages
+                            }
+                        }
+                    }
+                });
+            }
+
+            const yearSelect = document.getElementById('year-select');
+
+            async function fetchAndRenderChart(year) {
+                try {
+                    const response = await fetch(`${window.location.origin}/api/monthly_analytics_data?year=${year}`);
+                    if (!response.ok) {
+                        // Handle non-200 responses to prevent JSON parsing errors
+                        console.error('Failed to fetch monthly data. Status:', response.status);
+                        // Optionally, show an error message on the chart area
+                        return;
+                    }
+                    const result = await response.json();
+                    if (result.error) {
+                        console.error('Error fetching monthly data:', result.error);
+                        return;
+                    }
+                    createMonthlyChart(result.data);
+                } catch (error) {
+                    console.error('Error fetching monthly data:', error);
+                }
+            }
+
+            async function populateYearDropdown() {
+                try {
+                    const response = await fetch(`${window.location.origin}/api/monthly_analytics_data`);
+                    if (!response.ok) {
+                        console.error('Failed to fetch years. Status:', response.status);
+                        yearSelect.innerHTML = '<option value="">Failed to load years</option>';
+                        return;
+                    }
+                    const result = await response.json();
+                    
+                    if (result.years && result.years.length > 0) {
+                        result.years.forEach(year => {
+                            const option = document.createElement('option');
+                            option.value = year;
+                            option.textContent = year;
+                            yearSelect.appendChild(option);
+                        });
+                        // Set the initial year to the latest one
+                        const latestYear = result.years[0];
+                        yearSelect.value = latestYear;
+                        fetchAndRenderChart(latestYear);
+                    } else {
+                        // Handle case with no data
+                        yearSelect.innerHTML = '<option value="">No data available</option>';
+                    }
+                } catch (error) {
+                    console.error('Error fetching years:', error);
+                }
+            }
+            
+            // Pie chart logic
+            function createDistributionChart(stroke_count, normal_count) {
+                const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+                new Chart(distributionCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Stroke', 'Normal'],
+                        datasets: [{
+                            data: [stroke_count, normal_count],
+                            backgroundColor: [
+                                '#f72585',
+                                '#4cc9f0'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+
+            async function fetchDistributionData() {
+                try {
+                    const response = await fetch(`${window.location.origin}/api/user_analytics_data`);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+                    if (data.error) {
+                        console.error('Error fetching analytics data:', data.error);
+                        return;
+                    }
+                    createDistributionChart(data.stroke_count, data.normal_count);
+                } catch (error) {
+                    console.error('Error fetching analytics data:', error);
+                }
+            }
+
+            yearSelect.addEventListener('change', (event) => {
+                const selectedYear = event.target.value;
+                if (selectedYear) {
+                    fetchAndRenderChart(selectedYear);
+                }
+            });
+
+            // Initial population and rendering of the charts
+            populateYearDropdown();
+            fetchDistributionData(); // Fetch data for the pie chart
+
+            let currentPage = 1;
+
+            function fetchTableData(page) {
+                const tableBody = document.getElementById('predictions-table-body');
+                const paginationControls = document.getElementById('pagination-controls');
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Loading predictions...</td></tr>';
+                paginationControls.innerHTML = '';
+
+                fetch(`${window.location.origin}/api/combined_predictions?page=${page}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            // Handle non-200 responses
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        tableBody.innerHTML = '';
+                        if (data.predictions.length === 0) {
+                            tableBody.innerHTML = '<tr><td colspan="5" class="text-center">No predictions available.</td></tr>';
+                            return;
+                        }
+
+                        data.predictions.forEach(prediction => {
+                            const row = document.createElement('tr');
+                            
+                            const scoreText = prediction.score !== null ? `${prediction.score}%` : 'N/A';
+                            const badgeClass = prediction.prediction_text.toLowerCase().includes('no') || prediction.prediction_text.toLowerCase().includes('not') ? 'badge-success' : 'badge-danger';
+
+                            row.innerHTML = `
+                                <td>#${prediction.id}</td>
+                                <td><span class="badge badge-primary">${prediction.type}</span></td>
+                                <td><span class="badge ${badgeClass}">${prediction.prediction_text}</span></td>
+                                <td>${scoreText}</td>
+                                <td>${prediction.timestamp.split(' ')[0]}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+
+                        // Update pagination controls
+                        if (data.pages > 1) {
+                            const prevDisabled = page === 1 ? 'disabled' : '';
+                            const nextDisabled = page === data.pages ? 'disabled' : '';
+
+                            let paginationHtml = `<li class="page-item ${prevDisabled}"><a class="page-link" href="#" data-page="${page - 1}">Previous</a></li>`;
+                            for (let i = 1; i <= data.pages; i++) {
+                                const activeClass = i === page ? 'active' : '';
+                                paginationHtml += `<li class="page-item ${activeClass}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+                            }
+                            paginationHtml += `<li class="page-item ${nextDisabled}"><a class="page-link" href="#" data-page="${page + 1}">Next</a></li>`;
+                            paginationControls.innerHTML = paginationHtml;
+
+                            // Add event listeners to new buttons
+                            paginationControls.querySelectorAll('.page-link').forEach(button => {
+                                button.addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    const newPage = parseInt(this.dataset.page);
+                                    if (newPage > 0 && newPage <= data.pages) {
+                                        currentPage = newPage;
+                                        fetchTableData(currentPage);
+                                    }
+                                });
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching combined predictions:', error);
+                        document.getElementById('predictions-table-body').innerHTML = '<tr><td colspan="5" class="text-center">Failed to load data.</td></tr>';
+                    });
+            }
+
+            // Initial fetch for the table data
+            fetchTableData(currentPage);
+            
+            // --- Table Sorting Logic ---
+            const sortableColumns = document.querySelectorAll('.dataset-table th');
+            
+            sortableColumns.forEach(header => {
+                header.addEventListener('click', () => {
+                    const table = header.closest('table');
+                    const tableBody = table.querySelector('tbody');
+                    const rows = Array.from(tableBody.querySelectorAll('tr'));
+                    
+                    if (rows.length === 0 || rows[0].querySelector('td').getAttribute('colspan')) {
+                        return; // Do not sort if no data is present
+                    }
+
+                    const column = header.dataset.column;
+                    const order = header.dataset.order === 'asc' ? 'desc' : 'asc';
+
+                    // Reset all other headers
+                    sortableColumns.forEach(h => {
+                        h.dataset.order = 'asc';
+                        const icon = h.querySelector('.sort-icon');
+                        icon.classList.remove('fa-sort-up', 'fa-sort-down');
+                        icon.classList.add('fa-sort');
+                    });
+
+                    // Update the clicked header
+                    header.dataset.order = order;
+                    const icon = header.querySelector('.sort-icon');
+                    icon.classList.remove('fa-sort');
+                    icon.classList.add(order === 'asc' ? 'fa-sort-up' : 'fa-sort-down');
+                    
+                    const sortedRows = rows.sort((a, b) => {
+                        const aValue = a.querySelector(`td:nth-child(${header.cellIndex + 1})`).textContent.trim();
+                        const bValue = b.querySelector(`td:nth-child(${header.cellIndex + 1})`).textContent.trim();
+                        
+                        let comparison = 0;
+                        if (column === 'id' || column === 'score') {
+                            const valA = parseFloat(aValue.replace(/#|%|N\/A/g, ''));
+                            const valB = parseFloat(bValue.replace(/#|%|N\/A/g, ''));
+                            comparison = valA - valB;
+                        } else if (column === 'date') {
+                            const dateA = new Date(aValue);
+                            const dateB = new Date(bValue);
+                            comparison = dateA - dateB;
+                        } else {
+                            comparison = aValue.localeCompare(bValue);
+                        }
+
+                        return order === 'asc' ? comparison : -comparison;
+                    });
+
+                    // Re-append sorted rows
+                    sortedRows.forEach(row => tableBody.appendChild(row));
+                });
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Health | NEUROSTROKE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <main class="brain-health-container">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Brain Health</h1>
+                <p>Maintaining a healthy brain is essential for preventing strokes and ensuring long-term cognitive function.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Ways to Keep Your Brain Healthy</h2>
+                    <p>Simple lifestyle changes can significantly improve your brain health and reduce stroke risk.</p>
+                </div>
+
+                <div class="health-tips">
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Mental Stimulation</h3>
+                        <p>Engage in activities that challenge your brain like puzzles, reading, or learning new skills.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Physical Exercise</h3>
+                        <p>Regular physical activity increases blood flow to the brain and promotes new brain cell growth.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <h3>Healthy Diet</h3>
+                        <p>Eat a balanced diet rich in fruits, vegetables, and omega-3 fatty acids to nourish your brain.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-bed"></i>
+                        </div>
+                        <h3>Quality Sleep</h3>
+                        <p>7-8 hours of quality sleep helps clear brain toxins and consolidate memories.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h3>Social Connection</h3>
+                        <p>Strong social ties reduce stress and may lower dementia risk.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-stress-ball"></i>
+                        </div>
+                        <h3>Stress Management</h3>
+                        <p>Chronic stress can damage brain cells - practice relaxation techniques.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="risk-factors">
+            <div class="container">
+                <h2>Stroke Risk Factors Affecting Brain Health</h2>
+                <div class="factors-grid">
+                    <div class="factor">
+                        <h3>High Blood Pressure</h3>
+                        <p>The leading cause of stroke. Keep your blood pressure below 120/80.</p>
+                    </div>
+                    <div class="factor">
+                        <h3>Diabetes</h3>
+                        <p>Doubles stroke risk. Maintain healthy blood sugar levels.</p>
+                    </div>
+                    <div class="factor">
+                        <h3>Smoking</h3>
+                        <p>Damages blood vessels and accelerates brain aging.</p>
+                    </div>
+                    <div class="factor">
+                        <h3>Obesity</h3>
+                        <p>Excess weight increases stroke risk by 64%.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+ {% include 'chatbot.html' %}
+    {% include 'footer.html' %}
+
+    <style>
+        /* Brain Health Page Styles */
+        .brain-health-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .health-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .tip-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            color: #4361ee;
+            margin-bottom: 1rem;
+        }
+
+        .tip-card h3 {
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .risk-factors {
+            background: #f8f9fa;
+            padding: 3rem 0;
+        }
+
+        .risk-factors h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1a1a2e;
+        }
+
+        .factors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .factor {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .factor h3 {
+            color: #4361ee;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</body>
+</html>

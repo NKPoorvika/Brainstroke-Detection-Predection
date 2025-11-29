@@ -1,0 +1,287 @@
+<nav class="site-navbar" role="navigation" aria-label="Main navigation">
+  <div class="top-bar">
+    <div class="container top-inner">
+      <a class="brand" href="{{ url_for('home') }}">
+        <img class="logo-img" src="{{ url_for('static', filename='neurostroke-logo.png') }}" alt="Logo">
+        <img class="logo-text" src="{{ url_for('static', filename='neurostroke-text.png') }}" alt="Site name">
+      </a>
+
+      <div class="controls">
+        <div class="cta-group">
+          {% if 'username' in session %}
+            <span class="welcome">Hi, {{ session['username'] }}</span>
+            <a class="btn" href="{{ url_for('index') }}">Structured Prediction</a>
+            <a class="btn" href="{{ url_for('detection') }}">Image Detection</a>
+            <a class="btn" href="{{ url_for('about') }}">About</a>
+            <a class="btn" href="{{ url_for('contact') }}">Contact</a>
+            <a class="btn btn-ghost" href="{{ url_for('logout') }}">Logout</a>
+          {% else %}
+            <a class="btn"  href="{{ url_for('home') }}">Home</a>
+            <a class="btn"  href="{{ url_for('about') }}">About</a>
+            <a class="btn btn-ghost" href="{{ url_for('login') }}">Login</a>
+            <a class="btn btn-primary" href="{{ url_for('register') }}">Register</a>
+          {% endif %}
+          <a class="btn btn-donate-small" href="{{ url_for('contact') }}">Donate</a>
+          <button class="search-toggle" aria-label="Open search"><i class="fa fa-search"></i></button>
+        </div>
+
+        <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div id="searchPanel" class="search-panel" aria-hidden="true">
+      <div class="container search-inner">
+        <form class="search-form" action="{{ url_for('search') }}" method="get" role="search">
+          <input name="q" type="search" placeholder="Search the site" aria-label="Search the site">
+          <div class="search-actions">
+            <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> Search</button>
+            <button type="button" class="btn btn-ghost search-close">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="secondaryBar" class="secondary-bar">
+    <div class="container secondary-inner">
+      <ul class="secondary-nav" role="menubar" aria-label="Secondary">
+        <li><a href="{{ url_for('bmi') }}">BMI Calculator</a></li>
+        <li><a href="{{ url_for('medications') }}">Medications</a></li>
+        <li><a href="{{ url_for('brain_health') }}">Brain Health</a></li>
+        <li><a href="{{ url_for('lifestyle') }}">Lifestyle</a></li>
+        <li><a href="{{ url_for('life_after_stroke') }}">Life after stroke</a></li>
+        <li><a href="{{ url_for('analytics') }}">Analytics</a></li>
+        <li><a href="{{ url_for('browse') }}">Structured Records</a></li>
+        <li><a href="{{ url_for('dataset') }}">Image Records</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="mobileDrawer" class="mobile-drawer" aria-hidden="true">
+    <div class="drawer-inner">
+      <button class="drawer-close" aria-label="Close menu">Close ✕</button>
+      <ul class="drawer-links">
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        {% if 'username' in session %}
+          <li><a href="{{ url_for('index') }}">Structured Prediction</a></li>
+          <li><a href="{{ url_for('detection') }}">Image Detection</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('about') }}">About</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li><a href="{{ url_for('bmi') }}">BMI Calculator</a></li>
+        <li><a href="{{ url_for('analytics') }}">Analytics</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Root tokens */
+  :root{
+    --accent: #4361ee;
+    --accent-2: #4895ef;
+    --dark: #0f1724;
+    --muted: #7b8794;
+    --donate: #f72585;
+    --nav-top-height: 80px;      /* Reduced top bar height */
+    --nav-secondary-height: 50px; /* Reduced secondary nav height */
+    --logo-height: 60px;         /* Smaller logo height */
+    --logo-text-height: 24px;
+    --glass: rgba(255,255,255,0.6);
+  }
+
+  /* Container helper */
+  .container{ max-width:1200px; margin:0 auto; padding:0 18px; }
+
+  /* NAVBAR base */
+  .site-navbar{ position:fixed; inset:0 0 auto 0; z-index:1200; width:100%; pointer-events:auto; }
+  .top-bar{ backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9)); border-bottom:1px solid rgba(15,15,20,0.05); box-shadow: 0 8px 30px rgba(8,10,20,0.06); transition: transform .4s cubic-bezier(.2,.9,.2,1), box-shadow .25s; }
+  .top-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0; min-height: var(--nav-top-height); } /* Reduced padding */
+
+  /* BRAND */
+  .brand{ display:flex; align-items:center; gap:8px; text-decoration:none; } /* Reduced gap */
+  .logo-img{ height:var(--logo-height); width:auto; display:block; object-fit:contain; transition: transform .35s ease; }
+  .logo-text{ height:var(--logo-text-height); width:auto; display:block; object-fit:contain; transition: opacity .18s ease, transform .25s ease; }
+
+  /* Controls */
+  .controls{ display:flex; align-items:center; gap:12px; }
+  .search-toggle{ background:transparent; border:0; font-size:18px; padding:8px; cursor:pointer; color:var(--dark); border-radius:8px; transition: background .18s; } /* Reduced padding */
+  .search-toggle:hover{ background:rgba(67,97,238,0.06); }
+
+  .cta-group{ display:flex; gap:8px; align-items:center; } /* Reduced gap */
+  .btn{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:8px; text-decoration:none; font-weight:700; font-size:14px; color:var(--accent); background:transparent; }
+  .btn-ghost{ border:1px solid rgba(67,97,238,0.12); color:var(--accent); background:transparent; }
+  .btn-primary{ background:var(--accent); color:#fff; border:0; }
+  /* smaller, understated donate button (changed) */
+  .btn-donate-small{ border:1px solid rgba(247,37,133,0.14); color:var(--donate); background:transparent; padding:6px 8px; font-weight:700; border-radius:6px; font-size:12px; }
+  .welcome{ color:var(--dark); font-weight:700; font-size:14px; }
+
+  .hamburger{ display:none; background:transparent; border:0; width:48px; height:48px; position:relative; cursor:pointer; }
+  .hamburger span{ display:block; height:3px; background:#111; margin:5px 0; border-radius:2px; transition:all .25s ease; }
+
+  /* Secondary nav */
+  .secondary-bar{ background:var(--dark); color:#fff; transition: transform .45s cubic-bezier(.2,.9,.2,1), opacity .3s ease; will-change:transform; }
+  .secondary-inner{ display:flex; padding:8px 0; align-items:center; min-height: var(--nav-secondary-height); } /* Reduced padding */
+  .secondary-nav{ display:flex; gap:20px; list-style:none; margin:0; padding:0; align-items:center; flex-wrap:wrap; } /* Reduced gap */
+  .secondary-nav a{ color:#fff; text-decoration:none; font-weight:800; opacity:.98; padding:8px 6px; position:relative; font-size:14px; letter-spacing:0.2px; transition: color .18s, transform .15s; }
+  .secondary-nav a:hover{ color:var(--accent-2); transform:translateY(-2px); }
+  .secondary-nav a::after{ content:''; position:absolute; left:0; bottom:-4px; height:3px; background:var(--accent-2); width:0; transition: width .28s; border-radius:6px; }
+  .secondary-nav a:hover::after{ width:100%; }
+
+  /* Search panel */
+  .search-panel{ display:none; padding:10px 0; border-top:1px solid rgba(0,0,0,0.04); background: rgba(255,255,255,0.96); } /* Reduced padding */
+  .search-inner{ padding:4px 0; }
+  .search-form{ display:flex; gap:10px; align-items:center; }
+  .search-form input[type="search"]{ flex:1; padding:10px 12px; border-radius:10px; border:1px solid #e9eef5; font-size:14px; box-shadow:0 6px 20px rgba(28,39,63,0.04); }
+  .search-actions{ display:flex; gap:8px; align-items:center; }
+
+  /* Mobile drawer */
+  .mobile-drawer{ position:fixed; inset:0; background:rgba(8,10,20,0.45); display:none; z-index:1300; }
+  .drawer-inner{ width:300px; max-width:92%; background:#fff; height:100%; padding:18px; box-shadow:2px 0 34px rgba(0,0,0,0.24); overflow:auto; transform:translateX(-6px); }
+  .drawer-close{ background:transparent; border:0; font-weight:800; padding:8px 0; display:block; text-align:left; color:var(--dark); margin-bottom:6px; }
+  .drawer-links{ list-style:none; padding:12px 0; margin:0; display:flex; flex-direction:column; gap:8px; }
+  .drawer-links a{ text-decoration:none; color:var(--dark); padding:10px 8px; border-radius:8px; font-weight:700; }
+
+  /* Small helpers */
+  .hidden{ display:none!important; }
+
+  /* Prevent page content overlap: you may also set body padding on the page's main CSS */
+  body{ padding-top: calc(var(--nav-top-height) + var(--nav-secondary-height)); }
+
+  /* Responsive */
+  @media (max-width: 1024px){
+    .logo-text{ display:none; }
+    .secondary-nav{ gap:18px; }
+    .cta-group .btn, .welcome{ display:none; }
+    .hamburger{ display:block; }
+    body{ padding-top: var(--nav-top-height); }
+    .secondary-bar{ display:none; } /* Hide secondary bar on mobile */
+  }
+  @media (max-width: 640px){
+    :root{ --logo-height:50px; --nav-secondary-height:45px; }
+    .drawer-inner{ width:90%; }
+    .secondary-nav{ gap:12px; }
+    .top-inner{ padding:6px 0; }
+  }
+
+  /* subtle hover scale on big logo */
+  .brand:hover .logo-img{ transform: scale(1.02); }
+
+  /* elevated when page scrolled */
+  .site-navbar.scrolled .top-bar{ box-shadow: 0 14px 40px rgba(8,10,20,0.12); transform: translateY(-2px); }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const secondaryBar = document.getElementById('secondaryBar');
+    const searchPanel = document.getElementById('searchPanel');
+    const searchToggle = document.querySelector('.search-toggle');
+    const searchCloseBtn = document.querySelector('.search-close');
+    const hamburger = document.querySelector('.hamburger');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerClose = document.querySelector('.drawer-close');
+    const siteNavbar = document.querySelector('.site-navbar');
+    const logoText = document.querySelector('.logo-text');
+
+    /* Smooth show/hide secondary bar on scroll */
+    let lastScroll = window.scrollY || 0;
+    let ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const current = window.scrollY || 0;
+
+          // add class when scrolled for subtle elevation
+          if (current > 20) siteNavbar.classList.add('scrolled'); else siteNavbar.classList.remove('scrolled');
+
+          // Check if on a smaller screen to disable the scroll effect
+          if (window.innerWidth <= 1024) {
+              secondaryBar.style.transform = 'translateY(0)';
+              secondaryBar.style.opacity = '1';
+              return;
+          }
+
+          // hide secondary when scrolling down strongly; show when scrolling up
+          if (current > lastScroll && current > 80) {
+            secondaryBar.style.transform = 'translateY(-110%)';
+            secondaryBar.style.opacity = '0';
+          } else {
+            secondaryBar.style.transform = 'translateY(0)';
+            secondaryBar.style.opacity = '1';
+          }
+          lastScroll = current <= 0 ? 0 : current;
+          ticking = false;
+        });
+      }
+      ticking = true;
+    }, { passive: true });
+
+    /* Open / close search */
+    if (searchToggle) {
+      searchToggle.addEventListener('click', () => {
+        const hidden = searchPanel.getAttribute('aria-hidden') === 'true' || searchPanel.style.display === '' || searchPanel.style.display === 'none';
+        if (hidden) {
+          searchPanel.style.display = 'block';
+          searchPanel.setAttribute('aria-hidden', 'false');
+          const input = searchPanel.querySelector('input[type="search"]');
+          if (input) { setTimeout(()=> input.focus(), 80); }
+        } else {
+          searchPanel.style.display = 'none';
+          searchPanel.setAttribute('aria-hidden', 'true');
+        }
+      });
+    }
+    if (searchCloseBtn) {
+      searchCloseBtn.addEventListener('click', () => {
+        searchPanel.style.display = 'none';
+        searchPanel.setAttribute('aria-hidden', 'true');
+      });
+    }
+
+    /* Mobile drawer toggle */
+    if (hamburger) {
+      hamburger.addEventListener('click', () => {
+        const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', String(!expanded));
+        if (!expanded) {
+          mobileDrawer.style.display = 'block';
+          mobileDrawer.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        } else {
+          mobileDrawer.style.display = 'none';
+          mobileDrawer.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+    if (drawerClose) {
+      drawerClose.addEventListener('click', () => {
+        mobileDrawer.style.display = 'none';
+        mobileDrawer.setAttribute('aria-hidden', 'true');
+        if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    }
+
+    // close drawer clicking outside inner area
+    if (mobileDrawer) {
+      mobileDrawer.addEventListener('click', (e) => {
+        if (e.target === mobileDrawer) {
+          mobileDrawer.style.display = 'none';
+          mobileDrawer.setAttribute('aria-hidden', 'true');
+          if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    // Initially set logoText visible when page loads at top
+    if (logoText && (window.scrollY || 0) <= 40) {
+      logoText.style.opacity = '1';
+      logoText.style.transform = 'translateY(0)';
+      logoText.style.pointerEvents = 'auto';
+    }
+  });
+</script>
